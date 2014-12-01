@@ -4,7 +4,6 @@ import httplib2
 import threading
 import urllib
 from urlparse import urlparse, urljoin
-
 from BeautifulSoup import BeautifulSoup
 
 
@@ -28,7 +27,7 @@ class ImageDownloaderThread(threading.Thread):
         print 'Finished thread ', self.name
 
 
-def traverse_site(max_links=10):
+def traverse_site(parsed_root, max_links=10):
     link_parser_singleton = Singleton()
     # While we have pages to parse in queue
     while link_parser_singleton.queue_to_parse:
@@ -116,9 +115,7 @@ def download_images(thread_name):
         print thread_name, 'finished downloading images from', url
 
 
-if __name__ == '__main__':
-    root = 'http://127.0.0.1/GameOverseer/login.html'
-
+def run_crawler(root):
     parsed_root = urlparse(root)
 
     singleton = Singleton()
@@ -128,7 +125,7 @@ if __name__ == '__main__':
     # Downloaded images
     singleton.downloaded = set()
 
-    traverse_site()
+    traverse_site(parsed_root)
 
     # Create images directory if not exists
     if not os.path.exists('images'):
@@ -141,3 +138,5 @@ if __name__ == '__main__':
     # Start new Threads
     thread1.start()
     thread2.start()
+
+    
