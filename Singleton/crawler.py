@@ -67,13 +67,15 @@ def traverse_site(max_links=10):
                 continue
 
             # Construct a full url from a link which can be relative
-            link_url = (parsed.scheme or parsed_root.scheme) + '://' + (parsed.netloc or parsed_root.netloc) + parsed.path or ''
+            link_url = (parsed.scheme or parsed_root.scheme) + '://' \
+                + (parsed.netloc or parsed_root.netloc) + parsed.path or ''
 
             # If link was added previously, skip it
             if link_url in link_parser_singleton.to_visit:
                 continue
             # Add a link for further parsing
-            link_parser_singleton.queue_to_parse = [link_url] + link_parser_singleton.queue_to_parse
+            link_parser_singleton.queue_to_parse = [link_url] \
+                + link_parser_singleton.queue_to_parse
 
 
 def download_images(thread_name):
@@ -115,7 +117,7 @@ def download_images(thread_name):
 
 
 if __name__ == '__main__':
-    root = 'http://www.tipidpc.com'
+    root = 'http://127.0.0.1/GameOverseer/login.html'
 
     parsed_root = urlparse(root)
 
