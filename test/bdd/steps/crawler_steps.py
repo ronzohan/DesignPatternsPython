@@ -10,7 +10,7 @@ def given_i_want_to_download_all_images_in_a_website_group1(step, url):
 
 
 @step(u'The crawler will put the pictures into the images folder')
-def the_crawler_will_put_the_pictures_into_the_images_folder(step):
+def then_the_crawler_will_put_the_pictures_into_the_images_folder(step):
     pic_list = []
     for row in step.hashes:
         pic_list.append(row['imagename'].encode("utf-8"))
