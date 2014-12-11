@@ -28,4 +28,3 @@ class RealSubject(AbstractSubject):
 
         if reverse:
             self.digits.reverse()
-        
