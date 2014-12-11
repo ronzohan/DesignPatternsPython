@@ -56,4 +56,3 @@ if __name__ == "__main__":
     print 'Removing usa_time_observer'
     subject.unregister_observer(observer1)
     subject.notify_observers()
-
