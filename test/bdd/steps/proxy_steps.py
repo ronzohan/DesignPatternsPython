@@ -1,40 +1,48 @@
-from lettuce import step
+from lettuce import step, world
 from Proxy.proxy import Proxy
 from nose.tools import assert_equal
+from contextlib import contextmanager
+from StringIO import StringIO
+import sys
+
+
+@contextmanager
+def captured_output():
+    new_out, new_err = StringIO(), StringIO()
+    old_out, old_err = sys.stdout, sys.stderr
+    try:
+        sys.stdout, sys.stderr = new_out, new_err
+        yield sys.stdout, sys.stderr
+    finally:
+        sys.stdout, sys.stderr = old_out, old_err
 
 
 @step(u'Given I instatiated multiple proxy')
 def given_i_instatiated_multiple_proxy(step):
+    message = ''
     for row in step.hashes:
-        row = Proxy()
+        message += row['message'] + '\n'
+
+    # Capture all output from the console
+    with captured_output() as (out, err):
+        world.proxy1 = Proxy()
+        world.proxy2 = Proxy()
+        world.proxy3 = Proxy()
+    # The captured print
+    output = out.getvalue().strip()
+    output += '\n'
+    assert_equal(output, str(message))
 
 
-@step(u'Then the proxy class will have "([^"]*)" reference count')
-def then_the_proxy_class_will_have_group1_reference_count(step, ref_count):
-    proxy1 = Proxy()
-    proxy2 = Proxy()
-    proxy3 = Proxy()
+@step(u'Then I will delete proxy 2 and will output')
+def then_i_will_delete_proxy_2_and_will_output(step):
+    message = ''
+    for row in step.hashes:
+        message += row['message'] + '\n'
 
-    assert_equal(Proxy().__class__.reference_count, int(ref_count))
+    # Capture all output from the console
+    with captured_output() as (out, err):
+        del world.proxy2
 
-
-@step(u'Given I instatiated a proxy')
-def given_i_instatiated_a_proxy(step):
-    proxy1 = Proxy()
-
-
-@step(u'And I delete that instance')
-def and_i_delete_that_instance(step):
-    proxy1 = Proxy()
-    del proxy1
-
-
-@step(u'Then the proxy class will now have "([^"]*)" reference count')
-def then_the_proxy_class_will_have_group1_reference_cont(step, ref_count):
-    proxy1 = Proxy()
-    del proxy1
-
-    assert_equal(Proxy().__class__.reference_count, int(ref_count))
-
-
-
+    output = out.getvalue().strip() + '\n'
+    assert_equal(output, str(message))
