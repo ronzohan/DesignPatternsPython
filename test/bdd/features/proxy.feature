@@ -4,15 +4,15 @@ Feature: Instantiate a huge object, RealSubject , which contains
 
 		 @create_multiple_proxy_instance
 		 Scenario: Create multiple proxy instance 
-		 Given I instatiated multiple proxy
-		 |proxy |
-		 |proxy1|
-		 |proxy2|
-		 |proxy3|
-		 Then the proxy class will have "3" reference count
+		 Given I instatiated multiple proxy will have message
+		 |message                 |
+		 |Created new object      |
+		 |Count of references =  1|
+	 	 |Using cached object     |
+		 |Count of references =  2|
+		 |Using cached object     |
+		 |Count of references =  3|
+		 Then I will delete proxy 2 and will output
+		 |message                              |
+         |Deleted object. Count of objects =  2|
 		 
-		 @delete_proxy_instance
-		 Scenario: Delete proxy instance 
-		 Given I instatiated a proxy
-		 And I delete that instance
-		 Then the proxy class will now have "0" reference count
