@@ -4,3 +4,14 @@
 *.p
 *.log
 *.jpg
+.coverage
+.settings/
+*/.coverage
+*/coverage.xml
+*/myfile
+*/test.txt
+coverage.xml
+myfile
+*.txt*
+.gitignore
+*.*[~]
