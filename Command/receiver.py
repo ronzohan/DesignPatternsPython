@@ -13,7 +13,7 @@ class LsReceiver(object):
             if os.path.isfile(os.path.join(cur_dir, filename)):
                 filenames.append(filename)
 
-        print 'Content of dir: ', os.path.join(filenames)
+        print 'Content of dir: ', ' '.join(filenames)
 
 
 class TouchReceiver(object):
